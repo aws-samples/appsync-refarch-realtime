@@ -1,0 +1,15 @@
+{
+  "version": "2017-02-28",
+  "operation": "UpdateItem",
+  "key": {
+      "id": {
+          "S": "$context.args.input.id"
+    }
+  },
+  "update": {
+        "expression" : "SET votes = votes + :incr",
+       "expressionValues" : {
+           ":incr":{"N":"1"}
+       }
+    }
+}

@@ -1,0 +1,171 @@
+type Movies {
+  id: ID!
+  name: String
+  poster: String
+  date: String
+  plot: String
+}
+
+type Reviews {
+  id: ID!
+  type: String
+  votes: Int
+}
+
+type Message {
+  name: String
+  message: String
+}
+
+type Subscription {
+  onCreateMessage: Message @aws_subscribe(mutations: ["createMessage"])
+  onCreateMovies: Movies @aws_subscribe(mutations: ["createMovies"])
+  onUpdateMovies: Movies @aws_subscribe(mutations: ["updateMovies"])
+  onDeleteMovies: Movies @aws_subscribe(mutations: ["deleteMovies"])
+  onCreateReviews: Reviews @aws_subscribe(mutations: ["createReviews"])
+  onUpdateReviews: Reviews @aws_subscribe(mutations: ["updateReviews"])
+  onDeleteReviews: Reviews @aws_subscribe(mutations: ["deleteReviews"])
+}
+
+type Mutation {
+  createMessage(message: String!): Message
+  createMovies(input: CreateMoviesInput!): Movies
+  updateMovies(input: UpdateMoviesInput!): Movies
+  deleteMovies(input: DeleteMoviesInput!): Movies
+  createReviews(input: CreateReviewsInput!): Reviews
+  updateReviews(input: UpdateReviewsInput!): Reviews
+  deleteReviews(input: DeleteReviewsInput!): Reviews
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelMoviesConnection {
+  items: [Movies]
+  nextToken: String
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelMoviesFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  poster: ModelStringFilterInput
+  date: ModelStringFilterInput
+  plot: ModelStringFilterInput
+  and: [ModelMoviesFilterInput]
+  or: [ModelMoviesFilterInput]
+  not: ModelMoviesFilterInput
+}
+
+type Query {
+  getMovies(id: ID!): Movies
+  listMoviess(filter: ModelMoviesFilterInput, limit: Int, nextToken: String): ModelMoviesConnection
+  getReviews(id: ID!): Reviews
+  listReviewss(filter: ModelReviewsFilterInput, limit: Int, nextToken: String): ModelReviewsConnection
+}
+
+input CreateMoviesInput {
+  id: ID
+  name: String
+  poster: String
+  date: String
+  plot: String
+}
+
+input UpdateMoviesInput {
+  id: ID!
+  name: String
+  poster: String
+  date: String
+  plot: String
+}
+
+input DeleteMoviesInput {
+  id: ID
+}
+
+type ModelReviewsConnection {
+  items: [Reviews]
+  nextToken: String
+}
+
+input ModelReviewsFilterInput {
+  id: ModelIDFilterInput
+  type: ModelStringFilterInput
+  votes: ModelIntFilterInput
+  and: [ModelReviewsFilterInput]
+  or: [ModelReviewsFilterInput]
+  not: ModelReviewsFilterInput
+}
+
+input CreateReviewsInput {
+  id: ID
+  type: String
+  votes: Int
+}
+
+input UpdateReviewsInput {
+  id: ID!
+  type: String
+  votes: Int
+}
+
+input DeleteReviewsInput {
+  id: ID
+}

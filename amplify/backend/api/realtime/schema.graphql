@@ -1,0 +1,27 @@
+type Movies @model {
+  id: ID!
+  name: String
+  poster: String
+  date: String
+  plot: String
+}
+
+type Reviews @model {
+  id: ID!
+  type: String
+  votes: Int
+}
+
+type Message {
+  name: String
+  message: String
+}
+
+type Subscription {
+  onCreateMessage: Message
+    @aws_subscribe(mutations: ["createMessage"])
+}
+
+type Mutation {
+  createMessage(message: String!): Message
+}

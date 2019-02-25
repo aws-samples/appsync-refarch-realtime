@@ -1,0 +1,10 @@
+{
+    "Migration": {
+        "V1": {
+            "Resources": [
+                "MoviesTable",
+                "ReviewsTable"
+            ]
+        }
+    }
+}

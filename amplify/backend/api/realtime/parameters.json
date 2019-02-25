@@ -1,0 +1,10 @@
+{
+    "DynamoDBBillingMode": "PROVISIONED",
+    "AppSyncApiName": "realtime",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito4596b917",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
