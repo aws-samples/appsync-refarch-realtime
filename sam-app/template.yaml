@@ -21,6 +21,30 @@ Parameters:
         Type: String
         Description: AppSync Endpoint associated with this project
 Resources:
+    pubSubDataSource:
+        Type: AWS::AppSync::DataSource
+        Properties:
+            Type: NONE
+            Description: "Local Resolver"
+            ApiId: !Ref graphqlApi
+            Name: PubSub
+    pubSubResolver:
+        Type: "AWS::AppSync::Resolver"
+        Properties:
+            ApiId: !Ref graphqlApi
+            TypeName: "Mutation"
+            FieldName: "createMessage"
+            DataSourceName: !GetAtt pubSubDataSource.Name
+            RequestMappingTemplate: |
+                {
+                    "version": "2017-02-28",
+                    "payload": {
+                        "message": "${context.arguments.message}",
+                        "sentAt": "$util.time.nowISO8601()"
+                    }
+                }
+            ResponseMappingTemplate: |
+                $util.toJson($context.result)
     GetMovieFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
         Properties:

@@ -43,6 +43,8 @@ export const onCreateReviews = `subscription OnCreateReviews {
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;
@@ -51,6 +53,8 @@ export const onUpdateReviews = `subscription OnUpdateReviews {
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;
@@ -59,6 +63,8 @@ export const onDeleteReviews = `subscription OnDeleteReviews {
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;

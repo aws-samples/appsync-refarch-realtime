@@ -72,168 +72,6 @@
         }
     },
     "Resources": {
-        "MoviesTable": {
-            "Type": "AWS::DynamoDB::Table",
-            "Properties": {
-                "TableName": {
-                    "Fn::If": [
-                        "HasEnvironmentParameter",
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    "Movies",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "GraphQLAPI",
-                                            "ApiId"
-                                        ]
-                                    },
-                                    {
-                                        "Ref": "env"
-                                    }
-                                ]
-                            ]
-                        },
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    "Movies",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "GraphQLAPI",
-                                            "ApiId"
-                                        ]
-                                    }
-                                ]
-                            ]
-                        }
-                    ]
-                },
-                "KeySchema": [
-                    {
-                        "AttributeName": "id",
-                        "KeyType": "HASH"
-                    }
-                ],
-                "AttributeDefinitions": [
-                    {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                    }
-                ],
-                "StreamSpecification": {
-                    "StreamViewType": "NEW_AND_OLD_IMAGES"
-                },
-                "BillingMode": {
-                    "Fn::If": [
-                        "ShouldUsePayPerRequestBilling",
-                        "PAY_PER_REQUEST",
-                        {
-                            "Ref": "AWS::NoValue"
-                        }
-                    ]
-                },
-                "ProvisionedThroughput": {
-                    "Fn::If": [
-                        "ShouldUsePayPerRequestBilling",
-                        {
-                            "Ref": "AWS::NoValue"
-                        },
-                        {
-                            "ReadCapacityUnits": {
-                                "Ref": "DynamoDBModelTableReadIOPS"
-                            },
-                            "WriteCapacityUnits": {
-                                "Ref": "DynamoDBModelTableWriteIOPS"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "ReviewsTable": {
-            "Type": "AWS::DynamoDB::Table",
-            "Properties": {
-                "TableName": {
-                    "Fn::If": [
-                        "HasEnvironmentParameter",
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    "Reviews",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "GraphQLAPI",
-                                            "ApiId"
-                                        ]
-                                    },
-                                    {
-                                        "Ref": "env"
-                                    }
-                                ]
-                            ]
-                        },
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    "Reviews",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "GraphQLAPI",
-                                            "ApiId"
-                                        ]
-                                    }
-                                ]
-                            ]
-                        }
-                    ]
-                },
-                "KeySchema": [
-                    {
-                        "AttributeName": "id",
-                        "KeyType": "HASH"
-                    }
-                ],
-                "AttributeDefinitions": [
-                    {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                    }
-                ],
-                "StreamSpecification": {
-                    "StreamViewType": "NEW_AND_OLD_IMAGES"
-                },
-                "BillingMode": {
-                    "Fn::If": [
-                        "ShouldUsePayPerRequestBilling",
-                        "PAY_PER_REQUEST",
-                        {
-                            "Ref": "AWS::NoValue"
-                        }
-                    ]
-                },
-                "ProvisionedThroughput": {
-                    "Fn::If": [
-                        "ShouldUsePayPerRequestBilling",
-                        {
-                            "Ref": "AWS::NoValue"
-                        },
-                        {
-                            "ReadCapacityUnits": {
-                                "Ref": "DynamoDBModelTableReadIOPS"
-                            },
-                            "WriteCapacityUnits": {
-                                "Ref": "DynamoDBModelTableWriteIOPS"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
         "GraphQLAPI": {
             "Type": "AWS::AppSync::GraphQLApi",
             "Properties": {
@@ -293,7 +131,7 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1550545628
+                        1553142883
                     ]
                 }
             },
@@ -555,6 +393,53 @@
             },
             "DependsOn": [
                 "GraphQLSchema"
+            ]
+        },
+        "CustomResourcesjson": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "Parameters": {
+                    "AppSyncApiId": {
+                        "Fn::GetAtt": [
+                            "GraphQLAPI",
+                            "ApiId"
+                        ]
+                    },
+                    "AppSyncApiName": {
+                        "Ref": "AppSyncApiName"
+                    },
+                    "env": {
+                        "Ref": "env"
+                    },
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
+                    }
+                },
+                "TemplateURL": {
+                    "Fn::Join": [
+                        "/",
+                        [
+                            "https://s3.amazonaws.com",
+                            {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "stacks",
+                            "CustomResources.json"
+                        ]
+                    ]
+                }
+            },
+            "DependsOn": [
+                "GraphQLAPI",
+                "GraphQLSchema",
+                "Movies",
+                "Reviews"
             ]
         }
     },

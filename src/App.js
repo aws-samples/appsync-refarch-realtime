@@ -203,7 +203,7 @@ class App extends Component {
                 <div className="col-md-4 p-1 card-body">
                   <div className="mx-auto text-center rounded bg-dark rounded col-height">
                     <br/>
-                    {this.state.poster && (<img className="rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
+                    {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
                   </div>
                 </div>
                 <div className="col-md-4 p-1 card-body">

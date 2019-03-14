@@ -33,6 +33,8 @@ export const getReviews = `query GetReviews($id: ID!) {
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;
@@ -46,6 +48,8 @@ export const listReviewss = `query ListReviewss(
       id
       type
       votes
+      topMovie
+      topVotes
     }
     nextToken
   }

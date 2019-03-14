@@ -43,6 +43,8 @@ export const createReviews = `mutation CreateReviews($input: CreateReviewsInput!
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;
@@ -51,6 +53,8 @@ export const updateReviews = `mutation UpdateReviews($input: UpdateReviewsInput!
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;
@@ -59,6 +63,8 @@ export const deleteReviews = `mutation DeleteReviews($input: DeleteReviewsInput!
     id
     type
     votes
+    topMovie
+    topVotes
   }
 }
 `;

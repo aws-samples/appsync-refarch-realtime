@@ -17,50 +17,112 @@
 
 ### Back End Setup
 
-1. Install the required modules:
+1. Clone this repository 
+
+    ```bash
+    git clone https://github.com/aws-samples/appsync-refarch-realtime.git
+    cd aws-appsync-chat-starter-react
+    ```
+
+2. Install the required modules:
 
     ```bash
     npm install
     ```
 
-2. Init the directory as an amplify Javascript project using the React framework:
+3. Init the directory as an amplify Javascript project using the React framework:
    
     ```bash
     amplify init
     ```
 
-3. Add an **Amazon Cognito User Pool** auth resource. Use the default configuration.
+4. Add an **Amazon Cognito User Pool** auth resource. Use the default configuration.
 
    ```bash
    amplify add auth
    ```
 
-4. Add an AppSync GraphQL API. Follow the default options. When prompted with "Do you have an annotated GraphQL schema?", select "NO" and copy/paste the schema from the file `schema.graphql` in this repo. It will use [GraphQL Transform](https://aws-amplify.github.io/docs/cli/graphql?sdk=js)  [@model](https://aws-amplify.github.io/docs/cli/graphql?sdk=js#model) directives to create DynamoDB tables:
+5. Add an AppSync GraphQL API. Follow the default options. When prompted with "Do you have an annotated GraphQL schema?", select "YES" and provide the path to the file `schema.graphql` in this repo. It will use [GraphQL Transform](https://aws-amplify.github.io/docs/cli/graphql?sdk=js)  [@model](https://aws-amplify.github.io/docs/cli/graphql?sdk=js#model) directives to create DynamoDB tables:
 
     ```bash
    amplify add api
    ```
-5. Now it's time to provision your cloud resources based on the local setup and configured features:
+6. Now it's time to provision your cloud resources based on the local setup and configured features:
 
    ```bash
    amplify push
    ```
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
-6. Execute the script `setupenv.sh` to configure some environment variables
-7. Install the Lambda dependencies and deploy the backend with SAM:
+7. Execute the script `setupenv.sh` to configure some environment variables
+8. Install the Lambda dependencies and deploy the backend with SAM:
     ```bash
    cd ./sam-app/get-movie;npm install; cd ..
    sam package --template-file ./sam-app/template.yaml --s3-bucket $DEPLOYMENT_BUCKET_NAME --output-template-file packaged.yaml --region $AWS_REGION
-   export STACK_NAME_SAM="$STACK_NAME-extra"
+   export STACK_NAME_SAM="$STACK_NAME-lambda"
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
-8.  Finally, execute the following command to install your project package dependencies and run the application locally:
 
-    ```bash
-    amplify serve
+9. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect votes in the Reviews table:
+
+    ```graphql
+    mutation createVotes1 {
+        createReviews(input:{
+            id:1, type:"love", votes:0
+        }){
+            id
+            type
+            votes
+        }
+    }
+
+    mutation createVotes2 {
+        createReviews(input:{
+            id:2, type:"like", votes:0
+        }){
+            id
+            type
+            votes
+        }
+    }
+
+    mutation createVotes3 {
+        createReviews(input:{
+            id:3, type:"meh", votes:0
+        }){
+            id
+            type
+            votes
+        }
+    }
+
+    mutation createVotes4 {
+        createReviews(input:{
+            id:4, type:"unknown", votes:0
+        }){
+            id
+            type
+            votes
+        }
+    }
+
+    mutation createVotes5 {
+        createReviews(input:{
+            id:5, type:"hate", votes:0
+        }){
+            id
+            type
+            votes
+        }
+    }
     ```
-9.  Open different browsers and test realtime subscriptions
+
+10.  Finally, execute the following command to install your project package dependencies and run the application locally:
+
+        ```bash
+        amplify serve
+        ```
+11.  Open different browsers and test realtime subscriptions
 
 ## License Summary
 This sample code is made available under a modified MIT license. See the LICENSE file.

@@ -1,9 +1,9 @@
 {
-    "DynamoDBBillingMode": "PROVISIONED",
     "AppSyncApiName": "realtime",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
     "AuthCognitoUserPoolId": {
         "Fn::GetAtt": [
-            "authcognito4596b917",
+            "authcognito320c7b90",
             "Outputs.UserPoolId"
         ]
     }

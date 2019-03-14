@@ -80,6 +80,84 @@
         }
     },
     "Resources": {
+        "ReviewsTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "TableName": {
+                    "Fn::If": [
+                        "HasEnvironmentParameter",
+                        {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    "Reviews",
+                                    {
+                                        "Ref": "GetAttGraphQLAPIApiId"
+                                    },
+                                    {
+                                        "Ref": "env"
+                                    }
+                                ]
+                            ]
+                        },
+                        {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    "Reviews",
+                                    {
+                                        "Ref": "GetAttGraphQLAPIApiId"
+                                    }
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                "KeySchema": [
+                    {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                    }
+                ],
+                "StreamSpecification": {
+                    "StreamViewType": "NEW_AND_OLD_IMAGES"
+                },
+                "BillingMode": {
+                    "Fn::If": [
+                        "ShouldUsePayPerRequestBilling",
+                        "PAY_PER_REQUEST",
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
+                },
+                "ProvisionedThroughput": {
+                    "Fn::If": [
+                        "ShouldUsePayPerRequestBilling",
+                        {
+                            "Ref": "AWS::NoValue"
+                        },
+                        {
+                            "ReadCapacityUnits": {
+                                "Ref": "DynamoDBModelTableReadIOPS"
+                            },
+                            "WriteCapacityUnits": {
+                                "Ref": "DynamoDBModelTableWriteIOPS"
+                            }
+                        }
+                    ]
+                },
+                "SSESpecification": {
+                    "SSEEnabled": true
+                }
+            }
+        },
         "ReviewsIAMRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {

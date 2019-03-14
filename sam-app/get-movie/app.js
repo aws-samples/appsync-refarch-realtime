@@ -1,10 +1,11 @@
 let env = require('process').env;
 let axios = require('axios');
 let AWS = require('aws-sdk');
+let urlParse = require('url').URL;
 let url = 'https://api.themoviedb.org/3/movie/popular?api_key=35440259b50e646a6485055c83367ccd&language=en-US&page=';
 let response;
-let endpoint = process.env.ENDPOINT;
-let appsyncUrl = "https://"+endpoint+"/graphql";
+let appsyncUrl = process.env.ENDPOINT;
+let endpoint = (new urlParse(appsyncUrl)).hostname.toString();
 let createMovies = `mutation CreateMovies($input: CreateMoviesInput!) {
     createMovies(input: $input) {
       id

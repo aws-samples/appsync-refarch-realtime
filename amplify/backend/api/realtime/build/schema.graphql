@@ -10,6 +10,8 @@ type Reviews {
   id: ID!
   type: String
   votes: Int
+  topMovie: String
+  topVotes: Int
 }
 
 type Message {
@@ -149,6 +151,8 @@ input ModelReviewsFilterInput {
   id: ModelIDFilterInput
   type: ModelStringFilterInput
   votes: ModelIntFilterInput
+  topMovie: ModelStringFilterInput
+  topVotes: ModelIntFilterInput
   and: [ModelReviewsFilterInput]
   or: [ModelReviewsFilterInput]
   not: ModelReviewsFilterInput
@@ -158,12 +162,16 @@ input CreateReviewsInput {
   id: ID
   type: String
   votes: Int
+  topMovie: String
+  topVotes: Int
 }
 
 input UpdateReviewsInput {
   id: ID!
   type: String
   votes: Int
+  topMovie: String
+  topVotes: Int
 }
 
 input DeleteReviewsInput {

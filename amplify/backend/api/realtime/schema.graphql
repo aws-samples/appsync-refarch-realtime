@@ -10,6 +10,8 @@ type Reviews @model {
   id: ID!
   type: String
   votes: Int
+  topMovie: String
+  topVotes: Int
 }
 
 type Message {
