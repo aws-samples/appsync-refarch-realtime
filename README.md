@@ -68,51 +68,61 @@
     ```graphql
     mutation createVotes1 {
         createReviews(input:{
-            id:1, type:"love", votes:0
+            id:1, type:"love", votes:0, topMovie:"N/A", topVotes:0
         }){
             id
             type
             votes
+            topMovie
+            topVotes
         }
     }
 
     mutation createVotes2 {
         createReviews(input:{
-            id:2, type:"like", votes:0
+            id:2, type:"like", votes:0, topMovie:"N/A", topVotes:0
         }){
             id
             type
             votes
+            topMovie
+            topVotes
         }
     }
 
     mutation createVotes3 {
         createReviews(input:{
-            id:3, type:"meh", votes:0
+            id:3, type:"meh", votes:0, topMovie:"N/A", topVotes:0
         }){
             id
             type
             votes
+            topMovie
+            topVotes
         }
     }
 
     mutation createVotes4 {
         createReviews(input:{
-            id:4, type:"unknown", votes:0
+            id:4, type:"unknown", votes:0, topMovie:"N/A", topVotes:0
         }){
             id
             type
             votes
+            topMovie
+            topVotes
         }
     }
 
     mutation createVotes5 {
         createReviews(input:{
-            id:5, type:"hate", votes:0
+            id:5, type:"hate", votes:0, topMovie:"N/A", topVotes:0
         }){
             id
             type
             votes
+            topMovie
+            topVotes
         }
     }
     ```
