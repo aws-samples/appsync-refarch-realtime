@@ -6,6 +6,16 @@ let url = 'https://api.themoviedb.org/3/movie/popular?api_key=35440259b50e646a64
 let response;
 let appsyncUrl = process.env.ENDPOINT;
 let endpoint = (new urlParse(appsyncUrl)).hostname.toString();
+let getMovies = `query GetMovies{
+  getMovies(id: 0) {
+    id
+    name
+    poster
+    date
+    plot
+  }
+}
+`;
 let createMovies = `mutation CreateMovies($input: CreateMoviesInput!) {
     createMovies(input: $input) {
       id
@@ -26,6 +36,30 @@ let updateMovies = `mutation UpdateMovies($input: UpdateMoviesInput!) {
     }
   }
   `;
+
+let listReviewss = `query ListReviewss{
+  listReviewss {
+    items {
+      id
+      type
+      votes
+      topMovie
+      topVotes
+    }
+  }
+}
+`;
+
+let updateReviews = `mutation UpdateReviews($input: UpdateReviewsInput!) {
+  updateReviews(input: $input) {
+    id
+    type
+    votes
+    topMovie
+    topVotes
+  }
+}
+`;
 
 AWS.config.update({
   region: env.AWS_REGION,
@@ -54,14 +88,61 @@ exports.lambdaHandler = async (event, context) => {
         console.log(err);
         return err;
     };
-
-    const createMovie = await invokeCreateAppSync(response[0]);
-    const updateMovie = await invokeUpdateAppSync(response[0]);
-    return updateMovie.data;
+    const getMovie = await invokeGetMovie();
+    const createMovie = await invokeCreateMovie(response[0]);
+    const updateMovie = await invokeUpdateMovie(response[0]);
+    const listReviews = await invokeListReviews();
+    for (let i = 1; i < 6; i++) { 
+      let topMovie;
+      let topVotes;
+      let currentId;
+      for (let j = 0; j < 5; j++){
+        currentId = listReviews.data.data.listReviewss.items[j].id;
+        if (i == currentId){
+          if (listReviews.data.data.listReviewss.items[j].votes > listReviews.data.data.listReviewss.items[j].topVotes){
+            topVotes = listReviews.data.data.listReviewss.items[j].votes;
+            topMovie = getMovie.data.data.getMovies.name;
+          } else {
+            topVotes = listReviews.data.data.listReviewss.items[j].topVotes;
+            topMovie = listReviews.data.data.listReviewss.items[j].topMovie;
+          }
+          let votes = {
+              input: {
+                "id": i,
+                "votes": 0,
+                "topMovie": topMovie,
+                "topVotes": topVotes
+              }
+          };
+          const updateReview = await invokeUpdateReviews(votes);
+        }
+      }
+    }
+    return listReviews.data;
+    
 };
 
+const invokeGetMovie = async () => {
+  let req = new AWS.HttpRequest(appsyncUrl, env.AWS_REGION);
+  req.method = 'POST';
+  req.headers.host = endpoint;
+  req.headers['Content-Type'] = 'multipart/form-data';
+  req.body = JSON.stringify({
+    query: getMovies,
+    operationName: 'GetMovies'
+  });
+  let signer = new AWS.Signers.V4(req, 'appsync', true);
+  signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
+  const result = await axios({
+      method: 'post',
+      url: appsyncUrl,
+      data: req.body,
+      headers: req.headers
+  });
+  return result;
+};
 
-const invokeCreateAppSync = async (input) => {
+const invokeCreateMovie = async (input) => {
   let req = new AWS.HttpRequest(appsyncUrl, env.AWS_REGION);
   req.method = 'POST';
   req.headers.host = endpoint;
@@ -82,7 +163,7 @@ const invokeCreateAppSync = async (input) => {
   return result;
 };
 
-const invokeUpdateAppSync = async (input) => {
+const invokeUpdateMovie = async (input) => {
   let req = new AWS.HttpRequest(appsyncUrl, env.AWS_REGION);
   req.method = 'POST';
   req.headers.host = endpoint;
@@ -90,6 +171,47 @@ const invokeUpdateAppSync = async (input) => {
   req.body = JSON.stringify({
     query: updateMovies,
     operationName: 'UpdateMovies',
+    variables: input
+  });
+  let signer = new AWS.Signers.V4(req, 'appsync', true);
+  signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
+  const result = await axios({
+      method: 'post',
+      url: appsyncUrl,
+      data: req.body,
+      headers: req.headers
+  });
+  return result;
+};
+
+const invokeListReviews = async (input) => {
+  let req = new AWS.HttpRequest(appsyncUrl, env.AWS_REGION);
+  req.method = 'POST';
+  req.headers.host = endpoint;
+  req.headers['Content-Type'] = 'multipart/form-data';
+  req.body = JSON.stringify({
+    query: listReviewss,
+    operationName: 'ListReviewss'
+  });
+  let signer = new AWS.Signers.V4(req, 'appsync', true);
+  signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
+  const result = await axios({
+      method: 'post',
+      url: appsyncUrl,
+      data: req.body,
+      headers: req.headers
+  });
+  return result;
+};
+
+const invokeUpdateReviews = async (input) => {
+  let req = new AWS.HttpRequest(appsyncUrl, env.AWS_REGION);
+  req.method = 'POST';
+  req.headers.host = endpoint;
+  req.headers['Content-Type'] = 'multipart/form-data';
+  req.body = JSON.stringify({
+    query: updateReviews,
+    operationName: 'UpdateReviews',
     variables: input
   });
   let signer = new AWS.Signers.V4(req, 'appsync', true);

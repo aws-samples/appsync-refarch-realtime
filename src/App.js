@@ -29,11 +29,21 @@ class App extends Component {
       poster:"",
       plot:"",
       date:"",
-      love:"0",
-      like:"0",
-      meh:"0",
-      unknown:"0",
-      hate:"0",
+      love: 0,
+      like: 0,
+      meh: 0,
+      unknown: 0,
+      hate: 0,
+      topLovedMovie:"",
+      topLikedMovie:"",
+      topMehMovie:"",
+      topUnknownMovie:"",
+      topHatedMovie:"",
+      topLove: 0,
+      topLike: 0,
+      topMeh: 0,
+      topUnknown: 0,
+      topHate: 0,
       value:"",
       display:false,
       player:"",
@@ -81,19 +91,24 @@ class App extends Component {
           console.log("Subscription for vote " + event.value.data.onUpdateReviews.type + " with last count of " + event.value.data.onUpdateReviews.votes);  
           switch(event.value.data.onUpdateReviews.id){
             case "1": 
-              this.setState({ love: event.value.data.onUpdateReviews.votes, player: '1', animation: !this.state.animation});
+              this.setState({ love: event.value.data.onUpdateReviews.votes, topLovedMovie: event.value.data.onUpdateReviews.topMovie, topLove: event.value.data.onUpdateReviews.topVotes, player: '1', animation: !this.state.animation});
+              if (this.state.love === 0 ) this.setState({display:false,player:'0'});
               break;
             case "2": 
-              this.setState({ like: event.value.data.onUpdateReviews.votes, player: '2', animation: !this.state.animation});
+              this.setState({ like: event.value.data.onUpdateReviews.votes, topLikedMovie: event.value.data.onUpdateReviews.topMovie, topLike: event.value.data.onUpdateReviews.topVotes, player: '2', animation: !this.state.animation});
+              if (this.state.like === 0 ) this.setState({display:false,player:'0'});
               break;
             case "3": 
-              this.setState({ meh: event.value.data.onUpdateReviews.votes, player: '3', animation: !this.state.animation});
+              this.setState({ meh: event.value.data.onUpdateReviews.votes, topMehMovie: event.value.data.onUpdateReviews.topMovie, topMeh: event.value.data.onUpdateReviews.topVotes,player: '3', animation: !this.state.animation});
+              if (this.state.meh === 0 ) this.setState({display:false,player:'0'});
               break;
             case "4": 
-              this.setState({ unknown: event.value.data.onUpdateReviews.votes, player: '4', animation: !this.state.animation});
+              this.setState({ unknown: event.value.data.onUpdateReviews.votes, topUnknownMovie: event.value.data.onUpdateReviews.topMovie, topUnknown: event.value.data.onUpdateReviews.topVotes,player: '4', animation: !this.state.animation});
+              if (this.state.unknown === 0 ) this.setState({display:false,player:'0'});
               break;
             case "5": 
-              this.setState({ hate: event.value.data.onUpdateReviews.votes, player: '5', animation: !this.state.animation});
+              this.setState({ hate: event.value.data.onUpdateReviews.votes, topHatedMovie: event.value.data.onUpdateReviews.topMovie, topHate: event.value.data.onUpdateReviews.topVotes,player: '5', animation: !this.state.animation});
+              if (this.state.hate === 0 ) this.setState({display:false,player:'0'});
               break;
             default:
               console.log("Unknown ID, unable to resolve");
@@ -110,7 +125,7 @@ class App extends Component {
     });
   }
 
-   handleVote1 = async(e) => {
+  handleVote1 = async(e) => {
     e.preventDefault();
     e.stopPropagation();
     let vote1 = {
@@ -124,7 +139,7 @@ class App extends Component {
     e.stopPropagation();
     let vote2 = {
       id: "2"
-  };
+    };
     await API.graphql(graphqlOperation(updateReviews, {input: vote2}));
   }
 
@@ -299,6 +314,44 @@ class App extends Component {
             {this.state.display===true || this.state.player==="5" ? <Animated animationIn="fadeOutUp" animationOut="slideOutUp" isVisible={this.state.animation}><i className="fas fa-angry fa-2x text-primary p-2"></i></Animated>  : null}
           </div>
         </div>
+        <br/>
+        <h3 className="text-center">Leaderboard</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Movie</th>
+              <th>Votes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><i className="fas fa-heart"></i> Top Loved Movie</td>
+              <td>{this.state.topLovedMovie}</td>
+              <td>{this.state.topLove}</td>
+            </tr>
+            <tr>
+              <td><i className="fas fa-grin"></i> Top Liked Movie</td>
+              <td>{this.state.topLikedMovie}</td>
+              <td>{this.state.topLike}</td>
+            </tr>
+            <tr>
+              <td><i className="fas fa-meh"></i> Top Meh Movie</td>
+              <td>{this.state.topMehMovie}</td>
+              <td>{this.state.topMeh}</td>
+            </tr>
+            <tr>
+              <td><i className="fas fa-question-circle"></i> Top Unknown Movie</td>
+              <td>{this.state.topUnknownMovie}</td>
+              <td>{this.state.topUnknown}</td>
+            </tr>
+            <tr>
+              <td><i className="fas fa-angry"></i> Top Hated Movie</td>
+              <td>{this.state.topHatedMovie}</td>
+              <td>{this.state.topHate}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
