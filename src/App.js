@@ -34,11 +34,11 @@ class App extends Component {
       meh: 0,
       unknown: 0,
       hate: 0,
-      topLovedMovie:"",
-      topLikedMovie:"",
-      topMehMovie:"",
-      topUnknownMovie:"",
-      topHatedMovie:"",
+      topLovedMovie:"Waiting for votes...",
+      topLikedMovie:"Waiting for votes...",
+      topMehMovie:"Waiting for votes...",
+      topUnknownMovie:"Waiting for votes...",
+      topHatedMovie:"Waiting for votes...",
       topLove: 0,
       topLike: 0,
       topMeh: 0,
@@ -316,8 +316,8 @@ class App extends Component {
         </div>
         <br/>
         <h3 className="text-center">Leaderboard</h3>
-        <table class="table">
-          <thead>
+        <table className="table table-striped">
+          <thead className="thead-dark">
             <tr>
               <th></th>
               <th>Movie</th>
@@ -326,27 +326,27 @@ class App extends Component {
           </thead>
           <tbody>
             <tr>
-              <td><i className="fas fa-heart"></i> Top Loved Movie</td>
+              <td><i className="fas fa-heart"></i><strong> Top Loved Movie</strong></td>
               <td>{this.state.topLovedMovie}</td>
               <td>{this.state.topLove}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-grin"></i> Top Liked Movie</td>
+              <td><i className="fas fa-grin"></i><strong> Top Liked Movie</strong></td>
               <td>{this.state.topLikedMovie}</td>
               <td>{this.state.topLike}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-meh"></i> Top Meh Movie</td>
+              <td><i className="fas fa-meh"></i><strong> Top Meh Movie</strong></td>
               <td>{this.state.topMehMovie}</td>
               <td>{this.state.topMeh}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-question-circle"></i> Top Unknown Movie</td>
+              <td><i className="fas fa-question-circle"></i><strong> Top Unknown Movie</strong></td>
               <td>{this.state.topUnknownMovie}</td>
               <td>{this.state.topUnknown}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-angry"></i> Top Hated Movie</td>
+              <td><i className="fas fa-angry"></i><strong> Top Hated Movie</strong></td>
               <td>{this.state.topHatedMovie}</td>
               <td>{this.state.topHate}</td>
             </tr>
