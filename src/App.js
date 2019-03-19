@@ -87,8 +87,7 @@ class App extends Component {
         }
     });
     this.subscription = API.graphql(graphqlOperation(onUpdateReviews)).subscribe({
-      next: (event) => { 
-          console.log("Subscription for vote " + event.value.data.onUpdateReviews.type + " with last count of " + event.value.data.onUpdateReviews.votes);  
+      next: (event) => {  
           switch(event.value.data.onUpdateReviews.id){
             case "1": 
               this.setState({ love: event.value.data.onUpdateReviews.votes, topLovedMovie: event.value.data.onUpdateReviews.topMovie, topLove: event.value.data.onUpdateReviews.topVotes, player: '1', animation: !this.state.animation});
@@ -315,40 +314,39 @@ class App extends Component {
           </div>
         </div>
         <br/>
-        <h3 className="text-center">Leaderboard</h3>
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr>
-              <th></th>
-              <th>Movie</th>
-              <th>Votes</th>
+              <th className="bg-white text-dark text-center text-uppercase border-top-0"><strong><h4>Leaderboard</h4></strong></th>
+              <th className="bg-dark text-center"><h5>Movie</h5></th>
+              <th className="bg-dark text-center"><h5>Votes</h5></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><i className="fas fa-heart"></i><strong> Top Loved Movie</strong></td>
-              <td>{this.state.topLovedMovie}</td>
-              <td>{this.state.topLove}</td>
+              <td className="bg-dark text-white"><strong>Top Loved <i className="fas fa-heart"></i></strong></td>
+              <td className="text-center">{this.state.topLovedMovie}</td>
+              <td className="text-center">{this.state.topLove}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-grin"></i><strong> Top Liked Movie</strong></td>
-              <td>{this.state.topLikedMovie}</td>
-              <td>{this.state.topLike}</td>
+              <td className="bg-dark text-white"><strong>Top Liked <i className="fas fa-grin"></i></strong></td>
+              <td className="text-center">{this.state.topLikedMovie}</td>
+              <td className="text-center">{this.state.topLike}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-meh"></i><strong> Top Meh Movie</strong></td>
-              <td>{this.state.topMehMovie}</td>
-              <td>{this.state.topMeh}</td>
+              <td className="bg-dark text-white"><strong>Top Meh <i className="fas fa-meh"></i></strong></td>
+              <td className="text-center">{this.state.topMehMovie}</td>
+              <td className="text-center">{this.state.topMeh}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-question-circle"></i><strong> Top Unknown Movie</strong></td>
-              <td>{this.state.topUnknownMovie}</td>
-              <td>{this.state.topUnknown}</td>
+              <td className="bg-dark text-white"><strong>Top Unknown <i className="fas fa-question-circle"></i></strong></td>
+              <td className="text-center">{this.state.topUnknownMovie}</td>
+              <td className="text-center">{this.state.topUnknown}</td>
             </tr>
             <tr>
-              <td><i className="fas fa-angry"></i><strong> Top Hated Movie</strong></td>
-              <td>{this.state.topHatedMovie}</td>
-              <td>{this.state.topHate}</td>
+              <td className="bg-dark text-white"><strong>Top Hated <i className="fas fa-angry"></i></strong></td>
+              <td className="text-center">{this.state.topHatedMovie}</td>
+              <td className="text-center">{this.state.topHate}</td>
             </tr>
           </tbody>
         </table>
