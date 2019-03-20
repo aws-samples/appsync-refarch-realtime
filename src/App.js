@@ -19,6 +19,7 @@ Amplify.configure({
   aws_appsync_authenticationType: 'AWS_IAM'
 });
 
+
 class App extends Component {
 
   constructor(props){
@@ -44,6 +45,11 @@ class App extends Component {
       topMeh: 0,
       topUnknown: 0,
       topHate: 0,
+      clickLove: 0,
+      clickLike: 0,
+      clickMeh: 0,
+      clickUnknown: 0,
+      clickHate: 0,
       value:"",
       display:false,
       player:"",
@@ -82,9 +88,10 @@ class App extends Component {
     this.setState({poster: firstMovies.data.listMoviess.items[0].poster, name:firstMovies.data.listMoviess.items[0].name, plot:firstMovies.data.listMoviess.items[0].plot, date:firstMovies.data.listMoviess.items[0].date});
     this.subscription = API.graphql(graphqlOperation(onUpdateMovies)).subscribe({
       next: (event) => { 
-          this.setState({poster: event.value.data.onUpdateMovies.poster,name: event.value.data.onUpdateMovies.name, plot:event.value.data.onUpdateMovies.plot, date:event.value.data.onUpdateMovies.date});
+          this.setState({poster: event.value.data.onUpdateMovies.poster,name: event.value.data.onUpdateMovies.name, plot:event.value.data.onUpdateMovies.plot, date:event.value.data.onUpdateMovies.date, clickLove:0, clickLike:0, clickMeh:0, clickUnknown:0, clickHate:0});
           console.log("Subscription for Movie " + event.value.data.onUpdateMovies.name);  
-        }
+          setInterval(this.aggVotes,3000);
+      }
     });
     this.subscription = API.graphql(graphqlOperation(onUpdateReviews)).subscribe({
       next: (event) => {  
@@ -124,13 +131,66 @@ class App extends Component {
     });
   }
 
+  aggVotes = async () => {
+    if(this.state.clickLove > 1){
+      let consolidated1 = await API.graphql(graphqlOperation(updateReviews, 
+        {input: {
+          id: "1",
+          votes: this.state.love + this.state.clickLove
+        }}));
+      console.log("Total "+ consolidated1.data.updateReviews.votes + " aggregated votes for people who loved this movie");
+      this.setState({clickLove:0, love: this.state.love + this.state.clickLove });
+    };
+    if(this.state.clickLike > 1){
+      let consolidated2 = await API.graphql(graphqlOperation(updateReviews, 
+        {input: {
+          id: "2",
+          votes: this.state.like + this.state.clickLike
+        }}));
+      console.log("Total "+ consolidated2.data.updateReviews.votes + " aggregated votes for people who liked this movie");
+      this.setState({clickLike:0, like: this.state.like + this.state.clickLike });
+    };
+    if(this.state.clickMeh > 1){
+      let consolidated3 = await API.graphql(graphqlOperation(updateReviews, 
+        {input: {
+          id: "3",
+          votes: this.state.meh + this.state.clickMeh
+        }}));
+      console.log("Total "+ consolidated3.data.updateReviews.votes + " aggregated votes for people who think this movie is meh");
+      this.setState({clickMeh:0, meh: this.state.meh + this.state.clickMeh});
+    };
+    if(this.state.clickUnknown > 1){
+      let consolidated4 = await API.graphql(graphqlOperation(updateReviews, 
+        {input: {
+          id: "4",
+          votes: this.state.unknown + this.state.clickUnknown
+        }}));
+      console.log("Total "+ consolidated4.data.updateReviews.votes + " aggregated votes for people who didn't know this movie");
+      this.setState({clickUnknown:0, unknown: this.state.unknown + this.state.clickUnknown});
+    };
+    if(this.state.clickHate > 1){
+      let consolidated5 = await API.graphql(graphqlOperation(updateReviews, 
+        {input: {
+          id: "5",
+          votes: this.state.hate + this.state.clickHate
+        }}));
+      console.log("Total "+ consolidated5.data.updateReviews.votes + " aggregated votes for people who hated this movie");
+      this.setState({clickHate:0, hate: this.state.hate + this.state.clickHate });
+    }
+  }
+
   handleVote1 = async(e) => {
     e.preventDefault();
     e.stopPropagation();
     let vote1 = {
         id: "1"
     };
-    await API.graphql(graphqlOperation(updateReviews, {input: vote1}));
+    let click1 = this.state.clickLove + 1;
+    this.setState({clickLove:click1});
+    if (this.state.clickLove < 1){
+      await API.graphql(graphqlOperation(updateReviews, {input: vote1}));
+      console.log("1st love vote - Direct Mutation");
+    };
   }
 
   handleVote2 = async(e) => {
@@ -139,7 +199,12 @@ class App extends Component {
     let vote2 = {
       id: "2"
     };
-    await API.graphql(graphqlOperation(updateReviews, {input: vote2}));
+    let click2 = this.state.clickLike + 1;
+    this.setState({clickLike:click2});
+    if (this.state.clickLike < 1){
+      await API.graphql(graphqlOperation(updateReviews, {input: vote2}));
+      console.log("1st like vote - Direct Mutation");
+    };
   }
 
   handleVote3 = async(e) => {
@@ -148,7 +213,12 @@ class App extends Component {
     let vote3 = {
       id: "3"
     };
-    await API.graphql(graphqlOperation(updateReviews, {input: vote3}));
+    let click3 = this.state.clickMeh + 1;
+    this.setState({clickMeh:click3});
+    if (this.state.clickMeh < 1){
+      await API.graphql(graphqlOperation(updateReviews, {input: vote3}));
+      console.log("1st meh vote - Direct Mutation");
+    };
   }
 
   handleVote4 = async(e) => {
@@ -157,16 +227,26 @@ class App extends Component {
     let vote4 = {
       id: "4"
     };
-    await API.graphql(graphqlOperation(updateReviews, {input: vote4}));
+    let click4 = this.state.clickUnknown + 1;
+    this.setState({clickUnknown:click4});
+    if (this.state.clickUnknown < 1){
+      await API.graphql(graphqlOperation(updateReviews, {input: vote4}));
+      console.log("1st unknown vote - Direct Mutation");
+    };
   }
 
- handleVote5 = async(e) => {
+  handleVote5 = async(e) => {
     e.preventDefault();
     e.stopPropagation();
     let vote5 = {
       id: "5"
     };
-    await API.graphql(graphqlOperation(updateReviews, {input: vote5}));
+    let click5 = this.state.clickHate + 1;
+    this.setState({clickHate:click5});
+    if (this.state.clickHate < 1){
+      await API.graphql(graphqlOperation(updateReviews, {input: vote5}));
+      console.log("1st hate vote - Direct Mutation");
+    };
   }
 
   handleChange = (e) => {
@@ -237,11 +317,11 @@ class App extends Component {
                       <table className="table p-1 rounded">
                         <tbody>
                           <tr>
-                            <td><button type="button" id="1" className="btn btn-primary rounded-circle p-2 tooltip-toggle" data-tooltip="Love" onClick={this.handleVote1}><i className="fas fa-heart fa-2x text-white"></i></button></td>
-                            <td><button type="button" id="2" className="btn btn-primary rounded-circle p-2 tooltip-toggle" data-tooltip="Like" onClick={this.handleVote2}><i className="fas fa-grin fa-2x text-white"></i></button></td> 
-                            <td><button type="button" id="3" className="btn btn-primary rounded-circle p-2 tooltip-toggle" data-tooltip="Meh" onClick={this.handleVote3}><i className="fas fa-meh fa-2x text-white"></i></button></td>
-                            <td><button type="button" id="4" className="btn btn-primary rounded-circle p-2 tooltip-toggle" data-tooltip="Unknown" onClick={this.handleVote4}><i className="fas fa-question-circle fa-2x text-white"></i></button></td>
-                            <td><button type="button" id="5" className="btn btn-primary rounded-circle p-2 tooltip-toggle" data-tooltip="Hate" onClick={this.handleVote5}><i className="fas fa-angry fa-2x text-white"></i></button></td>
+                            <td><button type="button" id="1" className="btn btn-primary rounded-circle p-1 tooltip-toggle" data-tooltip="Love" onClick={this.handleVote1}><i className="fas fa-heart fa-2x text-white"></i></button></td>
+                            <td><button type="button" id="2" className="btn btn-primary rounded-circle p-1 tooltip-toggle" data-tooltip="Like" onClick={this.handleVote2}><i className="fas fa-grin fa-2x text-white"></i></button></td> 
+                            <td><button type="button" id="3" className="btn btn-primary rounded-circle p-1 tooltip-toggle" data-tooltip="Meh" onClick={this.handleVote3}><i className="fas fa-meh fa-2x text-white"></i></button></td>
+                            <td><button type="button" id="4" className="btn btn-primary rounded-circle p-1 tooltip-toggle" data-tooltip="Unknown" onClick={this.handleVote4}><i className="fas fa-question-circle fa-2x text-white"></i></button></td>
+                            <td><button type="button" id="5" className="btn btn-primary rounded-circle p-1 tooltip-toggle" data-tooltip="Hate" onClick={this.handleVote5}><i className="fas fa-angry fa-2x text-white"></i></button></td>
                           </tr>
                           <tr className="bg-light text-dark rounded">
                             <td>{this.state.love}</td>

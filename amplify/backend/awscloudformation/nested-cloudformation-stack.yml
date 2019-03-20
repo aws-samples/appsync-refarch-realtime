@@ -161,6 +161,16 @@
 					"env": "master"
 				}
 			}
+		},
+		"hostingS3AndCloudFront": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/realtime-20190313204726-deployment/amplify-cfn-templates/hosting/template.json",
+				"Parameters": {
+					"bucketName": "realtime-20190319105858-hostingbucket",
+					"env": "master"
+				}
+			}
 		}
 	},
 	"Outputs": {
