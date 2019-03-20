@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {Animated} from "react-animated-css";
 import ScrollToBottom from 'react-scroll-to-bottom';
+import Countdown from 'react-countdown-now';
 import {listMoviess,listReviewss} from './graphql/queries'; 
 import {updateReviews,createMessage} from './graphql/mutations';
 import {onUpdateMovies,onUpdateReviews,onCreateMessage} from './graphql/subscriptions';
@@ -88,9 +89,9 @@ class App extends Component {
     this.setState({poster: firstMovies.data.listMoviess.items[0].poster, name:firstMovies.data.listMoviess.items[0].name, plot:firstMovies.data.listMoviess.items[0].plot, date:firstMovies.data.listMoviess.items[0].date});
     this.subscription = API.graphql(graphqlOperation(onUpdateMovies)).subscribe({
       next: (event) => { 
-          this.setState({poster: event.value.data.onUpdateMovies.poster,name: event.value.data.onUpdateMovies.name, plot:event.value.data.onUpdateMovies.plot, date:event.value.data.onUpdateMovies.date, clickLove:0, clickLike:0, clickMeh:0, clickUnknown:0, clickHate:0});
+          this.setState({poster: event.value.data.onUpdateMovies.poster,name: event.value.data.onUpdateMovies.name, plot:event.value.data.onUpdateMovies.plot, date:event.value.data.onUpdateMovies.date, clickLove:0, clickLike:0, clickMeh:0, clickUnknown:0, clickHate:0, timer:10});
           console.log("Subscription for Movie " + event.value.data.onUpdateMovies.name);  
-          setInterval(this.aggVotes,3000);
+          setInterval(this.aggVotes,3300);
       }
     });
     this.subscription = API.graphql(graphqlOperation(onUpdateReviews)).subscribe({
@@ -189,7 +190,7 @@ class App extends Component {
     this.setState({clickLove:click1});
     if (this.state.clickLove < 1){
       await API.graphql(graphqlOperation(updateReviews, {input: vote1}));
-      console.log("1st love vote - Direct Mutation");
+      console.log("Love vote - Direct Mutation");
     };
   }
 
@@ -203,7 +204,7 @@ class App extends Component {
     this.setState({clickLike:click2});
     if (this.state.clickLike < 1){
       await API.graphql(graphqlOperation(updateReviews, {input: vote2}));
-      console.log("1st like vote - Direct Mutation");
+      console.log("Like vote - Direct Mutation");
     };
   }
 
@@ -217,7 +218,7 @@ class App extends Component {
     this.setState({clickMeh:click3});
     if (this.state.clickMeh < 1){
       await API.graphql(graphqlOperation(updateReviews, {input: vote3}));
-      console.log("1st meh vote - Direct Mutation");
+      console.log("Meh vote - Direct Mutation");
     };
   }
 
@@ -231,7 +232,7 @@ class App extends Component {
     this.setState({clickUnknown:click4});
     if (this.state.clickUnknown < 1){
       await API.graphql(graphqlOperation(updateReviews, {input: vote4}));
-      console.log("1st unknown vote - Direct Mutation");
+      console.log("Unknown vote - Direct Mutation");
     };
   }
 
@@ -245,7 +246,7 @@ class App extends Component {
     this.setState({clickHate:click5});
     if (this.state.clickHate < 1){
       await API.graphql(graphqlOperation(updateReviews, {input: vote5}));
-      console.log("1st hate vote - Direct Mutation");
+      console.log("Hate vote - Direct Mutation");
     };
   }
 
@@ -298,6 +299,9 @@ class App extends Component {
                   <div className="mx-auto text-center rounded bg-dark rounded col-height">
                     <br/>
                     {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
+                    <div className="text-white">
+                      <Countdown date={Date.now() + 10000} />
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-4 p-1 card-body">
