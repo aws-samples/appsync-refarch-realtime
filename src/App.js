@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {Animated} from "react-animated-css";
 import ScrollToBottom from 'react-scroll-to-bottom';
-import Countdown from 'react-countdown-now';
 import {listMoviess,listReviewss} from './graphql/queries'; 
 import {updateReviews,createMessage} from './graphql/mutations';
 import {onUpdateMovies,onUpdateReviews,onCreateMessage} from './graphql/subscriptions';
@@ -299,9 +298,6 @@ class App extends Component {
                   <div className="mx-auto text-center rounded bg-dark rounded col-height">
                     <br/>
                     {this.state.poster && (<img className="img-fluid rounded align-middle p-2" src={this.state.poster} alt="Poster"/>)}
-                    <div className="text-white">
-                      <Countdown date={Date.now() + 10000} />
-                    </div>
                   </div>
                 </div>
                 <div className="col-md-4 p-1 card-body">
