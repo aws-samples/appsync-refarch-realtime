@@ -14,6 +14,7 @@
 - [Create React App](https://github.com/facebook/create-react-app) `(npm install -g create-react-app)`
 - [Install JQ](https://stedolan.github.io/jq/)
 - If using Windows, you'll need the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+- Create an account on TMDb and generate an [API Key](https://developers.themoviedb.org/3/getting-started/introduction)
 
 ### Back End Setup
 
@@ -55,6 +56,12 @@
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
 7. Execute the script `setupenv.sh` to configure some environment variables
+8. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API on line 5:
+
+    ```javascript
+    let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
+    ```
+
 8. Install the Lambda dependencies and deploy the backend with SAM:
     ```bash
    cd ./sam-app/get-movie;npm install; cd ..
@@ -63,7 +70,7 @@
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
 
-9. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect votes in the Reviews table:
+9. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {
@@ -132,7 +139,12 @@
         ```bash
         amplify serve
         ```
-11.  Open different browsers and test realtime subscriptions
+11.  Open different browsers and test realtime subscriptions. Alternativelly publish your application and use the public link:
+
+        ```bash
+        amplify add hosting
+        amplify publish
+        ```
 
 ## License Summary
 This sample code is made available under a modified MIT license. See the LICENSE file.
