@@ -37,40 +37,45 @@
     amplify init
     ```
 
-4. Add an **Amazon Cognito User Pool** auth resource. Use the default configuration.
-
-   ```bash
-   amplify add auth
-   ```
-
-5. Add an AppSync GraphQL API. Follow the default options. When prompted with "Do you have an annotated GraphQL schema?", select "YES" and provide the path to the file `schema.graphql` in this repo. It will use [GraphQL Transform](https://aws-amplify.github.io/docs/cli/graphql?sdk=js)  [@model](https://aws-amplify.github.io/docs/cli/graphql?sdk=js#model) directives to create DynamoDB tables:
-
-    ```bash
-   amplify add api
-   ```
-6. Now it's time to provision your cloud resources based on the local setup and configured features:
+4. Now it's time to provision your cloud resources based on the local setup and configured features:
 
    ```bash
    amplify push
    ```
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
-7. Execute the script `setupenv.sh` to configure some environment variables
-8. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API on line 5:
+
+5. Execute the following commands in a terminal to set up some environment variables as well as configure IAM authentication:
+
+```bash
+export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
+export GRAPHQL_API_ID=$(jq -r '.api[(.api | keys)[0]].output.GraphQLAPIIdOutput' ./amplify/#current-cloud-backend/amplify-meta.json)
+export GRAPHQL_API_NAME=$(aws appsync get-graphql-api --api-id $GRAPHQL_API_ID --region $AWS_REGION | jq -r '.graphqlApi.name')
+export GRAPHQL_ENDPOINT=$(sed -n 's/.*"aws_appsync_graphqlEndpoint": "\(.*\)".*/\1/p' src/aws-exports.js)
+export UNAUTH_ROLE=$(jq -r '.providers.awscloudformation.UnauthRoleName' amplify/#current-cloud-backend/amplify-meta.json)
+export ID_POOL_ID=$(sed -n 's/.*"aws_cognito_identity_pool_id": "\(.*\)".*/\1/p' src/aws-exports.js)
+export ID_POOL_NAME=$(jq -r '.auth[(.auth | keys)[0]].output.IdentityPoolName' ./amplify/#current-cloud-backend/amplify-meta.json)
+export DEPLOYMENT_BUCKET_NAME=$(jq -r '.providers.awscloudformation.DeploymentBucketName' ./amplify/#current-cloud-backend/amplify-meta.json)
+export STACK_NAME=$(jq -r '.providers.awscloudformation.StackName' ./amplify/#current-cloud-backend/amplify-meta.json)
+aws cognito-identity update-identity-pool --identity-pool-id $ID_POOL_ID --identity-pool-name $ID_POOL_NAME --allow-unauthenticated-identities  --region $AWS_REGION
+aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME --authentication-type AWS_IAM --region $AWS_REGION
+```
+
+6. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API on line 5:
 
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
     ```
 
-8. Install the Lambda dependencies and deploy the backend with SAM:
+7. Install the Lambda dependencies and deploy the backend with SAM:
     ```bash
-   cd ./sam-app/get-movie;npm install; cd ..
+   cd ./sam-app/get-movie;npm install; cd ../..
    sam package --template-file ./sam-app/template.yaml --s3-bucket $DEPLOYMENT_BUCKET_NAME --output-template-file packaged.yaml --region $AWS_REGION
    export STACK_NAME_SAM="$STACK_NAME-lambda"
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
 
-9. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
+8. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {
@@ -134,12 +139,12 @@
     }
     ```
 
-10.  Finally, execute the following command to install your project package dependencies and run the application locally:
+9.  Finally, execute the following command to install your project package dependencies and run the application locally:
 
         ```bash
         amplify serve
         ```
-11.  Open different browsers and test realtime subscriptions. Alternativelly publish your application and use the public link:
+10.  Open different browsers and test realtime subscriptions. Alternativelly publish your application and use the public link:
 
         ```bash
         amplify add hosting
