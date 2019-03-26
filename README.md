@@ -61,7 +61,7 @@ aws cognito-identity update-identity-pool --identity-pool-id $ID_POOL_ID --ident
 aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME --authentication-type AWS_IAM --region $AWS_REGION
 ```
 
-6. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API on line 5:
+6. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API Key (refer to Prerequisites) on line 5:
 
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
