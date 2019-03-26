@@ -151,5 +151,22 @@ aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME
         amplify publish
         ```
 
+### Clean Up
+
+
+To clean up the project, you can simply delete the stack created by the SAM CLI:
+
+```bash
+aws cloudformation delete-stack --stack-name $STACK_NAME_SAM --region $AWS_REGION
+```
+
+and use:
+
+```bash
+amplify delete
+```
+
+to delete the resources created by the Amplify CLI.
+
 ## License Summary
 This sample code is made available under a modified MIT license. See the LICENSE file.
