@@ -141,9 +141,9 @@ aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME
 
 9.  Finally, execute the following command to install your project package dependencies and run the application locally:
 
-        ```bash
+        
         amplify serve
-        ```
+        
 10.  Open different browsers and test realtime subscriptions. Alternativelly publish your application and use the public link:
 
         ```bash
