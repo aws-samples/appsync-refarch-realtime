@@ -75,7 +75,7 @@
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
 
-8. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API, go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
+8. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API (or execute `amplify console` from the project folder), go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {
