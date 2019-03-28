@@ -37,7 +37,7 @@
     amplify init
     ```
 
-4. Now it's time to provision your cloud resources based on the local setup and configured features:
+4. Now it's time to provision your cloud resources based on the local setup and configured features, execute the following command accepting all default options:
 
    ```bash
    amplify push
@@ -45,7 +45,7 @@
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
 
-5. Execute the following commands in a terminal to set up some environment variables as well as configure IAM authentication:
+5. Execute the following commands in a shell terminal to set up some environment variables as well as configure IAM authentication:
 
     ```bash
     export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
@@ -75,7 +75,15 @@
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
 
-8. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API (or execute `amplify console` from the project folder), go to the `Queries` section and execute these 5 mutations to create the data sctructure to collect and store votes in the Reviews table:
+8. Execute the following command to access and query your API directly from the AWS Console (or manually go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API and open the `Queries` section)
+
+    ```bash
+    amplify console
+    ? Please select the category or provider: api
+    ? Please select from one of the below mentioned services: GraphQL
+    ```
+
+8.  Execute each one of these 5 mutations to create the data sctructure that will collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {

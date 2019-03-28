@@ -81,7 +81,7 @@
 		"authcognito320c7b90": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/realtime-20190313204726-deployment/amplify-cfn-templates/auth/cognito320c7b90-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/realtime-20190328142228-deployment/amplify-cfn-templates/auth/cognito320c7b90-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "cognito320c7b90_identitypool_320c7b90",
 					"allowUnauthenticatedIdentities": false,
@@ -146,7 +146,7 @@
 		"apirealtime": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/realtime-20190313204726-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/realtime-20190328142228-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"Parameters": {
 					"AppSyncApiName": "realtime",
 					"DynamoDBBillingMode": "PAY_PER_REQUEST",
@@ -156,8 +156,8 @@
 							"Outputs.UserPoolId"
 						]
 					},
-					"S3DeploymentBucket": "realtime-20190313204726-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/fdc6001e774047e3bf5c9d14e97c12b2806c8df9",
+					"S3DeploymentBucket": "realtime-20190328142228-deployment",
+					"S3DeploymentRootKey": "amplify-appsync-files/d5d55a1fc0bec26e37acb5ca2f28c196838d0a14",
 					"env": "master"
 				}
 			}
