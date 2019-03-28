@@ -18,7 +18,7 @@
 
 ### Back End Setup
 
-1. Clone this repository 
+1. Clone this repository:
 
     ```bash
     git clone https://github.com/aws-samples/appsync-refarch-realtime.git
@@ -75,7 +75,7 @@
    sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
    ```
 
-8. Execute the following command to access and query your API directly from the AWS Console (or manually go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API and open the `Queries` section)
+8. Execute the following command to access and query your API directly from the AWS Console (or manually go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API and open the `Queries` section):
 
     ```bash
     amplify console
