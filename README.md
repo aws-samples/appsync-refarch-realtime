@@ -6,6 +6,7 @@
 
 ### Prerequisites
 
+- Create an account on TMDb and generate an [API Key](https://developers.themoviedb.org/3/getting-started/introduction)
 - [AWS Account](https://aws.amazon.com/mobile/details) with appropriate permissions to create the related resources
 - [NodeJS](https://nodejs.org/en/download/) with [NPM](https://docs.npmjs.com/getting-started/installing-node)
 - [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) with output configured as JSON `(pip install awscli --upgrade --user)`
@@ -14,7 +15,6 @@
 - [Create React App](https://github.com/facebook/create-react-app) `(npm install -g create-react-app)`
 - [Install JQ](https://stedolan.github.io/jq/)
 - If using Windows, you'll need the [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-- Create an account on TMDb and generate an [API Key](https://developers.themoviedb.org/3/getting-started/introduction)
 
 ### Back End Setup
 
