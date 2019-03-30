@@ -24,6 +24,8 @@
 
 ### Back End Setup
 
+[![alt text](https://master.d35renml875m0f.amplifyapp.com/button.png)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime)
+
 1. Clone this repository:
 
     ```bash
