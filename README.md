@@ -13,7 +13,7 @@
 
 ### Prerequisites
 
-- Create an account on TMDb and generate an [API Key](https://developers.themoviedb.org/3/getting-started/introduction)
+- Create an account on TMDb and generate an [API Key](https://developers.themoviedb.org/3/getting-started/introduction) **absolutely free for non-commercial use** 
 - [AWS Account](https://aws.amazon.com/mobile/details) with appropriate permissions to create the related resources
 - [NodeJS](https://nodejs.org/en/download/) with [NPM](https://docs.npmjs.com/getting-started/installing-node)
 - [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) with output configured as JSON `(pip install awscli --upgrade --user)`
@@ -27,7 +27,7 @@
 
 1. Fork this repository into your own GitHub account and clone it
 
-2. Edit the file `sam-app/get-movie/app.js` and add your TMDb API Key (refer to Prerequisites) on line 5:
+2. Edit the file `sam-app/get-movie/app.js` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
 
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
@@ -153,7 +153,7 @@
     aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME --authentication-type AWS_IAM --region $AWS_REGION
     ```
 
-6. Edit the file  `sam-app/get-movie/app.js` and add your TMDb API Key (refer to Prerequisites) on line 5:
+6. Edit the file  `sam-app/get-movie/app.js` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
 
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
