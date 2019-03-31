@@ -5,8 +5,11 @@ backend:
       commands:
         - '# Execute Amplify CLI with the helper script'
         - amplifyPush --simple
-        - yum install jq python-pip -y
-        - pip install --user aws-sam-cli 
+        - yum install jq python36 python36-devel python36-pip -y
+        - python3.6 -m pip install --upgrade pip
+        - USER_BASE_PATH=$(python3.6 -m site --user-base)
+        - export PATH=$PATH:$USER_BASE_PATH/bin
+        - python3.6 -m pip install aws-sam-cli
         - export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_ID=$(jq -r '.api[(.api | keys)[0]].output.GraphQLAPIIdOutput' ./amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_NAME=$(aws appsync get-graphql-api --api-id $GRAPHQL_API_ID --region $AWS_REGION | jq -r '.graphqlApi.name')
