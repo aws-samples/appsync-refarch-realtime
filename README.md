@@ -2,6 +2,17 @@
 
 ![Overview](/media/realtime-refarch.png)
 
+Our reference architecture showcases different types of real-time data broadcasting using GraphQL subscriptions over WebSockets:
+* Back-end broadcasting: From a serverless backend to all clients (one to many)
+* Client broadcasting: Between multiple clients (many to many)
+
+With different types of backends:
+* Amazon DynamoDB (NoSQL Serverless database)
+* AWS Lambda (Serverless compute logic)
+* AWS AppSync Local Resolvers (Pub/Sub, data is not persisted)
+
+The sample app is based on second screen kind of experiences where you usually have something getting broadcasted to all connected users, that in turn can interact with each other as well as see the activity of other users in real-time. We have a single movie poster and description retrieved from the TMDb popular movies API and shared with all clients for a short amount of time before it's rotated, users can vote on how they feel about the current movie as well as express their opinion in a public chat room. The most voted movies at any specific time on different categories are displayed on a leader board.
+
 ### Quicklinks
  - [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
