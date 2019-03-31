@@ -43,6 +43,8 @@ The sample app is based on second screen kind of experiences where you usually h
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
     ```
+    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) or features such as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private.
+
 3. Commit the changes to your forked repository
 4. Connect your forked repository to the [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) as per the instructions [here](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html). When prompted with "_We detected a backend created with the Amplify Framework. Would you like Amplify Console to deploy these resources with your frontend?_", select **"YES"** and provide or create an IAM role with appropriate permissions to build the backend resources. The file `amplify.yml` will be detected and provide the build settings.
 
@@ -169,6 +171,8 @@ The sample app is based on second screen kind of experiences where you usually h
     ```javascript
     let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
     ```
+
+    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) or features such as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application.
 
 7. Install the Lambda dependencies and deploy the backend with SAM:
     ```bash
