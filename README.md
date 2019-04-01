@@ -36,6 +36,10 @@ The sample app is based on second screen kind of experiences where you usually h
 
 ### One-Click Deploy with the Amplify Console
 
+[![alt text](https://master.d35renml875m0f.amplifyapp.com/button.png)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime)
+
+**IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
+
 1. Fork this repository into your own GitHub account and clone it
 
 2. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 13:
@@ -48,13 +52,6 @@ The sample app is based on second screen kind of experiences where you usually h
 
 3. Commit the changes to your forked repository
 4. Connect your forked repository to the [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) as per the instructions [here](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html). When prompted with "_We detected a backend created with the Amplify Framework. Would you like Amplify Console to deploy these resources with your frontend?_", select **"YES"** and provide or create an IAM role with appropriate permissions to build the backend resources. The file `amplify.yml` will be detected and provide the build settings.
-
-    Alternatively edit this `README.md` in your repo, add your fork address, remove the quotes, commit the changes and click the Deploy Button below:
-
-    ```
-    [![alt text](https://master.d35renml875m0f.amplifyapp.com/button.png)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/<your forked repo>)
-    ```
-
 5. Wait for the build, deployment and verification steps
 6. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` sectionExecute each one of these 5 mutations to create the data sctructure that will collect and store votes in the Reviews table:
 
