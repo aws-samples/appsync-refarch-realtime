@@ -41,7 +41,7 @@ The sample app is based on second screen kind of experiences where you usually h
 2. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 13:
 
     ```bash
-    export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
+    - export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
     ```
 
     **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
