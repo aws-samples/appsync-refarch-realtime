@@ -20,6 +20,9 @@ Parameters:
     graphqlEndpoint:
         Type: String
         Description: AppSync Endpoint associated with this project
+    tmdbApiKey:
+        Type: String
+        Description: API Key to access TMDb
 Resources:
     pubSubDataSource:
         Type: AWS::AppSync::DataSource
@@ -55,6 +58,7 @@ Resources:
             Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
                 Variables:
                     ENDPOINT: !Ref graphqlEndpoint
+                    TMDBKEY: !Ref tmdbApiKey
     IteratorFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
         Properties:

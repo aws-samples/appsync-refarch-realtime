@@ -38,12 +38,13 @@ The sample app is based on second screen kind of experiences where you usually h
 
 1. Fork this repository into your own GitHub account and clone it
 
-2. Edit the file `sam-app/get-movie/app.js` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
+2. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 13:
 
-    ```javascript
-    let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
+    ```bash
+    export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
     ```
-    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) or features such as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private.
+
+    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
 
 3. Commit the changes to your forked repository
 4. Connect your forked repository to the [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) as per the instructions [here](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html). When prompted with "_We detected a backend created with the Amplify Framework. Would you like Amplify Console to deploy these resources with your frontend?_", select **"YES"** and provide or create an IAM role with appropriate permissions to build the backend resources. The file `amplify.yml` will be detected and provide the build settings.
@@ -150,7 +151,14 @@ The sample app is based on second screen kind of experiences where you usually h
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
 
-5. Execute the following commands in a shell terminal to set up some environment variables as well as configure IAM authentication:
+5. Edit the following command and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
+
+    ```bash
+    export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
+    ```
+    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. 
+
+6. Execute the following commands in a shell terminal to set up additional environment variables as well as configure IAM authentication:
 
     ```bash
     export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
@@ -166,20 +174,12 @@ The sample app is based on second screen kind of experiences where you usually h
     aws appsync update-graphql-api --api-id $GRAPHQL_API_ID --name $GRAPHQL_API_NAME --authentication-type AWS_IAM --region $AWS_REGION
     ```
 
-6. Edit the file  `sam-app/get-movie/app.js` and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
-
-    ```javascript
-    let url = 'https://api.themoviedb.org/3/movie/popular?api_key=<YOUR API KEY HERE>&language=en-US&page=';
-    ```
-
-    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) or features such as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application.
-
 7. Install the Lambda dependencies and deploy the backend with SAM:
     ```bash
    cd ./sam-app/get-movie;npm install; cd ../..
    sam package --template-file ./sam-app/template.yaml --s3-bucket $DEPLOYMENT_BUCKET_NAME --output-template-file packaged.yaml --region $AWS_REGION
    export STACK_NAME_SAM="$STACK_NAME-lambda"
-   sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT --region $AWS_REGION
+   sam deploy --template-file ./packaged.yaml --stack-name $STACK_NAME_SAM --capabilities CAPABILITY_IAM --parameter-overrides unauthRole=$UNAUTH_ROLE graphqlApi=$GRAPHQL_API_ID graphqlEndpoint=$GRAPHQL_ENDPOINT tmdbApiKey=$TMDB_API_KEY --region $AWS_REGION
    ```
 
 8. Execute the following command to access and query your API directly from the AWS Console (or manually go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your API and open the `Queries` section):
