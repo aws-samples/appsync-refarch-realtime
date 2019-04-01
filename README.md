@@ -151,7 +151,7 @@ The sample app is based on second screen kind of experiences where you usually h
 
    Wait for the provisioning to complete. Once done, a `src/aws-exports.js` file with the resources information is created.
 
-5. Edit the following command and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
+5. Execute the following command in a shell terminal and add your **free for non-commercial use** TMDb API Key (refer to Prerequisites) on line 5:
 
     ```bash
     export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
