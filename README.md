@@ -48,9 +48,9 @@ The sample app is based on second screen kind of experiences where you usually h
 
     **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
 
-3. Commit the changes to your forked repository.
-4. The [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) will kickoff another build. Wait for the build, deployment and verification steps to finish.
-5. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` sectionExecute each one of these 5 mutations to create the data structure that will collect and store votes in the Reviews table:
+2. Commit the changes to your forked repository.
+3. The [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) will kickoff another build. Wait for the build, deployment and verification steps to finish.
+4. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` section. Execute each one of these 5 mutations to create the data structure that will collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {
