@@ -46,67 +46,67 @@ Click the button to load the AWS Amplify Console, connect to GitHub and provide 
 
 After the build is finished go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` section. Execute each one of these 5 mutations to create the data structure that will collect and store votes in the Reviews table:
 
-    ```graphql
-    mutation createVotes1 {
-        createReviews(input:{
-            id:1, type:"love", votes:0, topMovie:"N/A", topVotes:0
-        }){
-            id
-            type
-            votes
-            topMovie
-            topVotes
-        }
+```graphql
+mutation createVotes1 {
+    createReviews(input:{
+        id:1, type:"love", votes:0, topMovie:"N/A", topVotes:0
+    }){
+        id
+        type
+        votes
+        topMovie
+        topVotes
     }
+}
 
-    mutation createVotes2 {
-        createReviews(input:{
-            id:2, type:"like", votes:0, topMovie:"N/A", topVotes:0
-        }){
-            id
-            type
-            votes
-            topMovie
-            topVotes
-        }
+mutation createVotes2 {
+    createReviews(input:{
+        id:2, type:"like", votes:0, topMovie:"N/A", topVotes:0
+    }){
+        id
+        type
+        votes
+        topMovie
+        topVotes
     }
+}
 
-    mutation createVotes3 {
-        createReviews(input:{
-            id:3, type:"meh", votes:0, topMovie:"N/A", topVotes:0
-        }){
-            id
-            type
-            votes
-            topMovie
-            topVotes
-        }
+mutation createVotes3 {
+    createReviews(input:{
+        id:3, type:"meh", votes:0, topMovie:"N/A", topVotes:0
+    }){
+        id
+        type
+        votes
+        topMovie
+        topVotes
     }
+}
 
-    mutation createVotes4 {
-        createReviews(input:{
-            id:4, type:"unknown", votes:0, topMovie:"N/A", topVotes:0
-        }){
-            id
-            type
-            votes
-            topMovie
-            topVotes
-        }
+mutation createVotes4 {
+    createReviews(input:{
+        id:4, type:"unknown", votes:0, topMovie:"N/A", topVotes:0
+    }){
+        id
+        type
+        votes
+        topMovie
+        topVotes
     }
+}
 
-    mutation createVotes5 {
-        createReviews(input:{
-            id:5, type:"hate", votes:0, topMovie:"N/A", topVotes:0
-        }){
-            id
-            type
-            votes
-            topMovie
-            topVotes
-        }
+mutation createVotes5 {
+    createReviews(input:{
+        id:5, type:"hate", votes:0, topMovie:"N/A", topVotes:0
+    }){
+        id
+        type
+        votes
+        topMovie
+        topVotes
     }
-    ```
+}
+```
 
 **IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
 
