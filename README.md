@@ -107,16 +107,17 @@ mutation createVotes5 {
     }
 }
 ```
-
+____
 **IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
-
+_____
 1. The one-click deploy button above would have created a fork of this repo in your account. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb [API Key](https://developers.themoviedb.org/3/getting-started/introduction) (refer to Prerequisites) on line 13:
 
     ```bash
     - export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
     ```
-
+_____
     **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
+______
 
 2. Commit the changes to your forked repository.
 3. The [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) will kickoff another build. Wait for the build, deployment and verification steps to finish.
