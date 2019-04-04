@@ -99,7 +99,7 @@ exports.lambdaHandler = async (event, context) => {
       let topVotes;
       let currentId;
       for (let j = 0; j < 5; j++){
-        currentId = listReviews.data.data.listReviewss.items[j].id;
+        let currentId = listReviews.data.data.listReviewss.items[j].id;
         if (i == currentId){
           if (listReviews.data.data.listReviewss.items[j].votes > listReviews.data.data.listReviewss.items[j].topVotes){
             topVotes = listReviews.data.data.listReviewss.items[j].votes;
