@@ -36,7 +36,7 @@ The sample app is based on second screen kind of experiences where you usually h
 
 ### One-Click Deploy with the Amplify Console
 
-[![alt text](https://master.d35renml875m0f.amplifyapp.com/button.png)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime)
+[![alt text](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime)
 
 **IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
 
