@@ -38,21 +38,13 @@ The sample app is based on second screen kind of experiences where you usually h
 
 Click the button to load the AWS Amplify Console, connect to GitHub and provide an IAM role for the build. The end to end back-end and front-end deployment should take around 10 minutes:
 
-[![alt text](https://oneclick.amplifyapp.com/button.svg)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime)
+<p align="center">
+    <a href="https://console.aws.amazon.com/amplify/home#/deploy?repo=ttps://github.com/aws-samples/appsync-refarch-realtime">
+        <img src="https://oneclick.amplifyapp.com/button.svg" alt="Deploy to Amplify Console">
+    </a>
+</p>
 
-**IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
-
-1. The one-click deploy button above would have created a fork of this repo in your account. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb [API Key](https://developers.themoviedb.org/3/getting-started/introduction) (refer to Prerequisites) on line 13:
-
-    ```bash
-    - export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
-    ```
-
-    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
-
-2. Commit the changes to your forked repository.
-3. The [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) will kickoff another build. Wait for the build, deployment and verification steps to finish.
-4. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` section. Execute each one of these 5 mutations to create the data structure that will collect and store votes in the Reviews table:
+After the build is finished go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` section. Execute each one of these 5 mutations to create the data structure that will collect and store votes in the Reviews table:
 
     ```graphql
     mutation createVotes1 {
@@ -115,6 +107,20 @@ Click the button to load the AWS Amplify Console, connect to GitHub and provide 
         }
     }
     ```
+
+**IMPORTANT**: The button above is using a shared TMDb API Key that can be [rate limited](https://developers.themoviedb.org/3/getting-started/request-rate-limiting) depending on the number of deployments using it at the same time, if there's a throttling issue we recommend to create your own [API Key](https://developers.themoviedb.org/3/getting-started/introduction) on TMDb. In that case follow the steps below:
+
+1. The one-click deploy button above would have created a fork of this repo in your account. Edit the file `amplify.yml` and add your **free for non-commercial use** TMDb [API Key](https://developers.themoviedb.org/3/getting-started/introduction) (refer to Prerequisites) on line 13:
+
+    ```bash
+    - export TMDB_API_KEY=<YOUR TMDB API KEY HERE>
+    ```
+
+    **IMPORTANT**: This is a public and free API for a sample application that demonstrates different real-time use cases for unauthenticated/public users. In production scenarios secure API Keys or other important service credentials with [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html) for increased security. The current approach will use [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html) in AWS Lambda, DO NOT add API keys directly in your code. Delete or disable your TMDb API key after you tested the application and make sure your forked repository is private so your API key is not accessible publicly.
+
+2. Commit the changes to your forked repository.
+3. The [Amplify Console](https://console.aws.amazon.com/amplify/home?#/create) will kickoff another build. Wait for the build, deployment and verification steps to finish.
+4. Go to the [AWS AppSync Console](https://console.aws.amazon.com/appsync/home), access your newly deployed "realtime" GraphQL API and open the `Queries` section. Execute the 5 mutations as mentioned below the one-click deploy button.
 6. Access your app from the hosted site generated by the Amplify Console from multiple browsers or devices, testing the multiple real-time subscription scenarios (https://master.xxxxxxxx.amplifyapp.com)
 
 
