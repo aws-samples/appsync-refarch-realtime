@@ -13,6 +13,8 @@ With different types of backends:
 
 The sample app is based on second screen kind of experiences where you usually have something getting broadcasted to all connected users, that in turn can interact with each other as well as see the activity of other users in real-time. We have a single movie poster and description retrieved from the TMDb popular movies API and shared with all clients for a short amount of time before it's rotated, users can vote on how they feel about the current movie as well as express their opinion in a public chat room. The most voted movies at any specific time on different categories are displayed on a leader board.
 
+For more information refer to the article https://medium.com/open-graphql/aws-appsync-serverless-graphql-real-time-reference-architecture-19b16f5e9b93
+
 ### Quicklinks
  - [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
