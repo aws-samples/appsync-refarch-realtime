@@ -41,7 +41,7 @@ For more information refer to the article https://medium.com/open-graphql/aws-ap
 Click the button to load the AWS Amplify Console, connect to GitHub and provide an IAM role for the build. The end to end back-end and front-end deployment should take around 10 minutes:
 
 <p align="center">
-    <a href="https://console.aws.amazon.com/amplify/home#/deploy?repo=ttps://github.com/aws-samples/appsync-refarch-realtime">
+    <a href="https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/aws-samples/appsync-refarch-realtime">
         <img src="https://oneclick.amplifyapp.com/button.svg" alt="Deploy to Amplify Console">
     </a>
 </p>
