@@ -10,7 +10,7 @@ backend:
         - USER_BASE_PATH=$(python3.6 -m site --user-base)
         - export PATH=$PATH:$USER_BASE_PATH/bin
         - python3.6 -m pip install aws-sam-cli
-        - export TMDB_API_KEY=3f883f36d2cb8dc07cd3cc322648dc84 # Replace it with your TMDb API Key
+        - export TMDB_API_KEY=43cd3d358601977d8aaf660f0c85934a # Replace it with your TMDb API Key
         - export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_ID=$(jq -r '.api[(.api | keys)[0]].output.GraphQLAPIIdOutput' ./amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_NAME=$(aws appsync get-graphql-api --api-id $GRAPHQL_API_ID --region $AWS_REGION | jq -r '.graphqlApi.name')
