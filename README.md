@@ -134,7 +134,7 @@ mutation {
 
    ```bash
    git clone https://github.com/aws-samples/appsync-refarch-realtime.git
-   cd aws-appsync-chat-starter-react
+   cd appsync-refarch-realtime
    ```
 
 2. Install the required modules:
