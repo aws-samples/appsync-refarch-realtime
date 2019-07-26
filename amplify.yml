@@ -3,13 +3,8 @@ backend:
   phases:
     build:
       commands:
-        - '# Execute Amplify CLI with the helper script'
+        - "# Execute Amplify CLI with the helper script"
         - amplifyPush --simple
-        - yum install jq python36 python36-devel python36-pip -y
-        - python3.6 -m pip install --upgrade pip
-        - USER_BASE_PATH=$(python3.6 -m site --user-base)
-        - export PATH=$PATH:$USER_BASE_PATH/bin
-        - python3.6 -m pip install aws-sam-cli
         - export TMDB_API_KEY=43cd3d358601977d8aaf660f0c85934a # Replace it with your TMDb API Key
         - export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_ID=$(jq -r '.api[(.api | keys)[0]].output.GraphQLAPIIdOutput' ./amplify/#current-cloud-backend/amplify-meta.json)
@@ -38,7 +33,7 @@ frontend:
   artifacts:
     baseDirectory: build
     files:
-      - '**/*'
+      - "**/*"
   cache:
     paths:
       - node_modules/**/*
