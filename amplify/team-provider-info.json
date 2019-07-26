@@ -1,0 +1,19 @@
+{
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "realtime-master-20190726105226-authRole",
+            "UnauthRoleArn": "arn:aws:iam::244958302947:role/realtime-master-20190726105226-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::244958302947:role/realtime-master-20190726105226-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "realtime-master-20190726105226-deployment",
+            "UnauthRoleName": "realtime-master-20190726105226-unauthRole",
+            "StackName": "realtime-master-20190726105226",
+            "StackId": "arn:aws:cloudformation:us-west-2:244958302947:stack/realtime-master-20190726105226/2157d980-afce-11e9-a0cb-0a9edf17d014"
+        },
+        "categories": {
+            "auth": {
+                "realtime99d78ebe": {}
+            }
+        }
+    }
+}

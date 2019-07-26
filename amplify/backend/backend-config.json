@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"cognito320c7b90": {
+		"realtime99d78ebe": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation"
 		}
@@ -13,6 +13,5 @@
 				"securityType": "AMAZON_COGNITO_USER_POOLS"
 			}
 		}
-	},
-	"hosting": {}
+	}
 }

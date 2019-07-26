@@ -32,30 +32,28 @@
                 "PROVISIONED"
             ]
         },
+        "DynamoDBEnablePointInTimeRecovery": {
+            "Type": "String",
+            "Description": "Whether to enable Point in Time Recovery on the table",
+            "Default": "false",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
+        "DynamoDBEnableServerSideEncryption": {
+            "Type": "String",
+            "Description": "Enable server side encryption powered by KMS.",
+            "Default": "true",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
         "AuthCognitoUserPoolId": {
             "Type": "String",
             "Description": "The id of an existing User Pool to connect. If this is changed, a user pool will not be created for you.",
             "Default": "NONE"
-        },
-        "AuthCognitoUserPoolName": {
-            "Type": "String",
-            "Description": "The name of the user pool.",
-            "Default": "AppSyncUserPool"
-        },
-        "AuthCognitoUserPoolMobileClientName": {
-            "Type": "String",
-            "Description": "The name of the native user pool client.",
-            "Default": "CognitoNativeClient"
-        },
-        "AuthCognitoUserPoolJSClientName": {
-            "Type": "String",
-            "Description": "The name of the web user pool client.",
-            "Default": "CognitoJSClient"
-        },
-        "AuthCognitoUserPoolRefreshTokenValidity": {
-            "Type": "Number",
-            "Description": "The time limit, in days, after which the refresh token is no longer valid.",
-            "Default": 30
         },
         "env": {
             "Type": "String",
@@ -154,7 +152,24 @@
                     ]
                 },
                 "SSESpecification": {
-                    "SSEEnabled": true
+                    "SSEEnabled": {
+                        "Fn::If": [
+                            "ShouldUseServerSideEncryption",
+                            true,
+                            false
+                        ]
+                    }
+                },
+                "PointInTimeRecoverySpecification": {
+                    "Fn::If": [
+                        "ShouldUsePointInTimeRecovery",
+                        {
+                            "PointInTimeRecoveryEnabled": true
+                        },
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
                 }
             }
         },
@@ -681,16 +696,122 @@
             }
         }
     },
-    "Outputs": {},
+    "Outputs": {
+        "GetAttMoviesTableStreamArn": {
+            "Description": "Your DynamoDB table StreamArn.",
+            "Value": {
+                "Fn::GetAtt": [
+                    "MoviesTable",
+                    "StreamArn"
+                ]
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Join": [
+                        ":",
+                        [
+                            {
+                                "Ref": "AppSyncApiId"
+                            },
+                            "GetAtt",
+                            "MoviesTable",
+                            "StreamArn"
+                        ]
+                    ]
+                }
+            }
+        },
+        "GetAttMoviesDataSourceName": {
+            "Description": "Your model DataSource name.",
+            "Value": {
+                "Fn::GetAtt": [
+                    "MoviesDataSource",
+                    "Name"
+                ]
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Join": [
+                        ":",
+                        [
+                            {
+                                "Ref": "AppSyncApiId"
+                            },
+                            "GetAtt",
+                            "MoviesDataSource",
+                            "Name"
+                        ]
+                    ]
+                }
+            }
+        },
+        "GetAttMoviesTableName": {
+            "Description": "Your DynamoDB table name.",
+            "Value": {
+                "Ref": "MoviesTable"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Join": [
+                        ":",
+                        [
+                            {
+                                "Ref": "AppSyncApiId"
+                            },
+                            "GetAtt",
+                            "MoviesTable",
+                            "Name"
+                        ]
+                    ]
+                }
+            }
+        }
+    },
     "Conditions": {
-        "APIKeyExpirationEpochIsNotNegOne": {
-            "Fn::Not": [
+        "ShouldUsePayPerRequestBilling": {
+            "Fn::Equals": [
+                {
+                    "Ref": "DynamoDBBillingMode"
+                },
+                "PAY_PER_REQUEST"
+            ]
+        },
+        "ShouldUsePointInTimeRecovery": {
+            "Fn::Equals": [
+                {
+                    "Ref": "DynamoDBEnablePointInTimeRecovery"
+                },
+                "true"
+            ]
+        },
+        "ShouldUseServerSideEncryption": {
+            "Fn::Equals": [
+                {
+                    "Ref": "DynamoDBEnableServerSideEncryption"
+                },
+                "true"
+            ]
+        },
+        "ShouldCreateAPIKey": {
+            "Fn::And": [
+                {
+                    "Fn::Not": [
+                        {
+                            "Fn::Equals": [
+                                {
+                                    "Ref": "APIKeyExpirationEpoch"
+                                },
+                                -1
+                            ]
+                        }
+                    ]
+                },
                 {
                     "Fn::Equals": [
                         {
-                            "Ref": "APIKeyExpirationEpoch"
+                            "Ref": "AuthCognitoUserPoolId"
                         },
-                        -1
+                        "NONE"
                     ]
                 }
             ]
@@ -721,22 +842,6 @@
                         }
                     ]
                 }
-            ]
-        },
-        "ShouldUsePayPerRequestBilling": {
-            "Fn::Equals": [
-                {
-                    "Ref": "DynamoDBBillingMode"
-                },
-                "PAY_PER_REQUEST"
-            ]
-        },
-        "AuthShouldCreateUserPool": {
-            "Fn::Equals": [
-                {
-                    "Ref": "AuthCognitoUserPoolId"
-                },
-                "NONE"
             ]
         },
         "HasEnvironmentParameter": {

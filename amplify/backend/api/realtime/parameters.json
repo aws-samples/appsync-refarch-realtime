@@ -1,9 +1,10 @@
 {
     "AppSyncApiName": "realtime",
     "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
     "AuthCognitoUserPoolId": {
         "Fn::GetAtt": [
-            "authcognito320c7b90",
+            "authrealtime99d78ebe",
             "Outputs.UserPoolId"
         ]
     }

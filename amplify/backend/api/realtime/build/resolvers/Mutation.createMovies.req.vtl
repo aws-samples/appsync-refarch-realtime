@@ -1,13 +1,13 @@
 ## [Start] Prepare DynamoDB PutItem Request. **
-$util.qr($context.args.input.put("createdAt", $util.time.nowISO8601()))
-$util.qr($context.args.input.put("updatedAt", $util.time.nowISO8601()))
+$util.qr($context.args.input.put("createdAt", $util.defaultIfNull($ctx.args.input.createdAt, $util.time.nowISO8601())))
+$util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
 $util.qr($context.args.input.put("__typename", "Movies"))
 {
   "version": "2017-02-28",
   "operation": "PutItem",
-  "key": {
-      "id":     $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($ctx.args.input.id, $util.autoId()))
-  },
+  "key": #if( $modelObjectKey ) $util.toJson($modelObjectKey) #else {
+  "id":   $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($ctx.args.input.id, $util.autoId()))
+} #end,
   "attributeValues": $util.dynamodb.toMapValuesJson($context.args.input),
   "condition": {
       "expression": "attribute_not_exists(#id)",
