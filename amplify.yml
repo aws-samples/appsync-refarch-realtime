@@ -5,6 +5,7 @@ backend:
       commands:
         - "# Execute Amplify CLI with the helper script"
         - amplifyPush --simple
+        - yum install jq -y
         - export TMDB_API_KEY=43cd3d358601977d8aaf660f0c85934a # Replace it with your TMDb API Key
         - export AWS_REGION=$(jq -r '.providers.awscloudformation.Region' amplify/#current-cloud-backend/amplify-meta.json)
         - export GRAPHQL_API_ID=$(jq -r '.api[(.api | keys)[0]].output.GraphQLAPIIdOutput' ./amplify/#current-cloud-backend/amplify-meta.json)
