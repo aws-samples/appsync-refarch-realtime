@@ -269,6 +269,9 @@ mutation {
     amplify publish
     ```
 
+
+![App](/media/reactapp.png)
+
 ### Clean Up
 
 To clean up the project, you can simply delete the stack created by the SAM CLI:
