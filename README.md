@@ -202,7 +202,7 @@ mutation {
     ? Please select from one of the below mentioned services: GraphQL
     ```
 
-9.  Execute each one of these 5 mutations to create the data sctructure that will collect and store votes in the Reviews table:
+9.  Execute the following mutation to create the data sctructure that will collect and store votes in the Reviews table:
 
     ```graphql
     mutation {
