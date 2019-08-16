@@ -204,59 +204,65 @@ mutation {
 
 9.  Execute each one of these 5 mutations to create the data sctructure that will collect and store votes in the Reviews table:
 
-```graphql
-mutation {
-  type1: createReviews(
-    input: { id: 1, type: "love", votes: 0, topMovie: "N/A", topVotes: 0 }
-  ) {
-    id
-    type
-    votes
-    topMovie
-    topVotes
-  }
+    ```graphql
+    mutation {
+      type1: createReviews(
+        input: { id: 1, type: "love", votes: 0, topMovie: "N/A", topVotes: 0 }
+      ) {
+        id
+        type
+        votes
+        topMovie
+        topVotes
+      }
 
-  type2: createReviews(
-    input: { id: 2, type: "like", votes: 0, topMovie: "N/A", topVotes: 0 }
-  ) {
-    id
-    type
-    votes
-    topMovie
-    topVotes
-  }
+      type2: createReviews(
+        input: { id: 2, type: "like", votes: 0, topMovie: "N/A", topVotes: 0 }
+      ) {
+        id
+        type
+        votes
+        topMovie
+        topVotes
+      }
 
-  type3: createReviews(
-    input: { id: 3, type: "meh", votes: 0, topMovie: "N/A", topVotes: 0 }
-  ) {
-    id
-    type
-    votes
-    topMovie
-    topVotes
-  }
+      type3: createReviews(
+        input: { id: 3, type: "meh", votes: 0, topMovie: "N/A", topVotes: 0 }
+      ) {
+        id
+        type
+        votes
+        topMovie
+        topVotes
+      }
 
-  type4: createReviews(
-    input: { id: 4, type: "unknown", votes: 0, topMovie: "N/A", topVotes: 0 }
-  ) {
-    id
-    type
-    votes
-    topMovie
-    topVotes
-  }
+      type4: createReviews(
+        input: {
+          id: 4
+          type: "unknown"
+          votes: 0
+          topMovie: "N/A"
+          topVotes: 0
+        }
+      ) {
+        id
+        type
+        votes
+        topMovie
+        topVotes
+      }
 
-  type5: createReviews(
-    input: { id: 5, type: "hate", votes: 0, topMovie: "N/A", topVotes: 0 }
-  ) {
-    id
-    type
-    votes
-    topMovie
-    topVotes
-  }
-}
-```
+      type5: createReviews(
+        input: { id: 5, type: "hate", votes: 0, topMovie: "N/A", topVotes: 0 }
+      ) {
+        id
+        type
+        votes
+        topMovie
+        topVotes
+      }
+    }
+    ```
 
 10. Finally, execute the following command to install your project package dependencies and run the application locally:
 
