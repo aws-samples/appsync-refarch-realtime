@@ -1,6 +1,9 @@
 {
-    "projectName": "realtime",
-    "version": "2.0",
+    "providers": [
+        "awscloudformation"
+    ],
+    "projectName": "appsync-refarch-realtime",
+    "version": "3.0",
     "frontend": "javascript",
     "javascript": {
         "framework": "react",
@@ -10,8 +13,5 @@
             "BuildCommand": "npm run-script build",
             "StartCommand": "npm run-script start"
         }
-    },
-    "providers": [
-        "awscloudformation"
-    ]
+    }
 }

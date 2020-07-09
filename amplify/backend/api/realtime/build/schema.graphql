@@ -4,6 +4,8 @@ type Movies {
   poster: String
   date: String
   plot: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
 type Reviews {
@@ -12,6 +14,8 @@ type Reviews {
   votes: Int
   topMovie: String
   topVotes: Int
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
 type Message {
@@ -31,12 +35,12 @@ type Subscription {
 
 type Mutation {
   createMessage(message: String!): Message
-  createMovies(input: CreateMoviesInput!): Movies
-  updateMovies(input: UpdateMoviesInput!): Movies
-  deleteMovies(input: DeleteMoviesInput!): Movies
-  createReviews(input: CreateReviewsInput!): Reviews
-  updateReviews(input: UpdateReviewsInput!): Reviews
-  deleteReviews(input: DeleteReviewsInput!): Reviews
+  createMovies(input: CreateMoviesInput!, condition: ModelMoviesConditionInput): Movies
+  updateMovies(input: UpdateMoviesInput!, condition: ModelMoviesConditionInput): Movies
+  deleteMovies(input: DeleteMoviesInput!, condition: ModelMoviesConditionInput): Movies
+  createReviews(input: CreateReviewsInput!, condition: ModelReviewsConditionInput): Reviews
+  updateReviews(input: UpdateReviewsInput!, condition: ModelReviewsConditionInput): Reviews
+  deleteReviews(input: DeleteReviewsInput!, condition: ModelReviewsConditionInput): Reviews
 }
 
 enum ModelSortDirection {
@@ -49,7 +53,7 @@ type ModelMoviesConnection {
   nextToken: String
 }
 
-input ModelStringFilterInput {
+input ModelStringInput {
   ne: String
   eq: String
   le: String
@@ -60,9 +64,12 @@ input ModelStringFilterInput {
   notContains: String
   between: [String]
   beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
 }
 
-input ModelIDFilterInput {
+input ModelIDInput {
   ne: ID
   eq: ID
   le: ID
@@ -73,46 +80,74 @@ input ModelIDFilterInput {
   notContains: ID
   between: [ID]
   beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
 }
 
-input ModelIntFilterInput {
+input ModelIntInput {
   ne: Int
   eq: Int
   le: Int
   lt: Int
   ge: Int
   gt: Int
-  contains: Int
-  notContains: Int
   between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
 }
 
-input ModelFloatFilterInput {
+input ModelFloatInput {
   ne: Float
   eq: Float
   le: Float
   lt: Float
   ge: Float
   gt: Float
-  contains: Float
-  notContains: Float
   between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
 }
 
-input ModelBooleanFilterInput {
+input ModelBooleanInput {
   ne: Boolean
   eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
 }
 
 input ModelMoviesFilterInput {
-  id: ModelIDFilterInput
-  name: ModelStringFilterInput
-  poster: ModelStringFilterInput
-  date: ModelStringFilterInput
-  plot: ModelStringFilterInput
+  id: ModelIDInput
+  name: ModelStringInput
+  poster: ModelStringInput
+  date: ModelStringInput
+  plot: ModelStringInput
   and: [ModelMoviesFilterInput]
   or: [ModelMoviesFilterInput]
   not: ModelMoviesFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
 }
 
 type Query {
@@ -142,17 +177,27 @@ input DeleteMoviesInput {
   id: ID
 }
 
+input ModelMoviesConditionInput {
+  name: ModelStringInput
+  poster: ModelStringInput
+  date: ModelStringInput
+  plot: ModelStringInput
+  and: [ModelMoviesConditionInput]
+  or: [ModelMoviesConditionInput]
+  not: ModelMoviesConditionInput
+}
+
 type ModelReviewsConnection {
   items: [Reviews]
   nextToken: String
 }
 
 input ModelReviewsFilterInput {
-  id: ModelIDFilterInput
-  type: ModelStringFilterInput
-  votes: ModelIntFilterInput
-  topMovie: ModelStringFilterInput
-  topVotes: ModelIntFilterInput
+  id: ModelIDInput
+  type: ModelStringInput
+  votes: ModelIntInput
+  topMovie: ModelStringInput
+  topVotes: ModelIntInput
   and: [ModelReviewsFilterInput]
   or: [ModelReviewsFilterInput]
   not: ModelReviewsFilterInput
@@ -176,4 +221,14 @@ input UpdateReviewsInput {
 
 input DeleteReviewsInput {
   id: ID
+}
+
+input ModelReviewsConditionInput {
+  type: ModelStringInput
+  votes: ModelIntInput
+  topMovie: ModelStringInput
+  topVotes: ModelIntInput
+  and: [ModelReviewsConditionInput]
+  or: [ModelReviewsConditionInput]
+  not: ModelReviewsConditionInput
 }

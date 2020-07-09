@@ -3,16 +3,6 @@
     "Description": "An auto-generated nested stack.",
     "Metadata": {},
     "Parameters": {
-        "AppSyncApiName": {
-            "Type": "String",
-            "Description": "The name of the AppSync API",
-            "Default": "AppSyncSimpleTransform"
-        },
-        "APIKeyExpirationEpoch": {
-            "Type": "Number",
-            "Description": "The epoch time in seconds when the API Key should expire. Setting this to 0 will default to 1 week from the deployment date. Setting this to -1 will not create an API Key.",
-            "Default": 0
-        },
         "DynamoDBModelTableReadIOPS": {
             "Type": "Number",
             "Description": "The number of read IOPS the table should support.",
@@ -49,6 +39,24 @@
                 "true",
                 "false"
             ]
+        },
+        "AppSyncApiName": {
+            "Type": "String",
+            "Description": "The name of the AppSync API",
+            "Default": "AppSyncSimpleTransform"
+        },
+        "APIKeyExpirationEpoch": {
+            "Type": "Number",
+            "Description": "The epoch time in seconds when the API Key should expire. Setting this to 0 will default to 7 days from the deployment date. Setting this to -1 will not create an API Key.",
+            "Default": 0,
+            "MinValue": -1
+        },
+        "CreateAPIKey": {
+            "Type": "Number",
+            "Description": "The boolean value to control if an API Key will be created or not. The value of the property is automatically set by the CLI. If the value is set to 0 no API Key will be created.",
+            "Default": 0,
+            "MinValue": 0,
+            "MaxValue": 1
         },
         "AuthCognitoUserPoolId": {
             "Type": "String",
@@ -171,7 +179,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "DeletionPolicy": "Delete"
         },
         "MoviesIAMRole": {
             "Type": "AWS::IAM::Role",
@@ -183,7 +192,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Movies",
+                                    "Movies07ef49",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -198,7 +207,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Movies",
+                                    "Moviesb1b9f8",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -767,6 +776,7 @@
             }
         }
     },
+    "Mappings": {},
     "Conditions": {
         "ShouldUsePayPerRequestBilling": {
             "Fn::Equals": [
@@ -793,27 +803,11 @@
             ]
         },
         "ShouldCreateAPIKey": {
-            "Fn::And": [
+            "Fn::Equals": [
                 {
-                    "Fn::Not": [
-                        {
-                            "Fn::Equals": [
-                                {
-                                    "Ref": "APIKeyExpirationEpoch"
-                                },
-                                -1
-                            ]
-                        }
-                    ]
+                    "Ref": "CreateAPIKey"
                 },
-                {
-                    "Fn::Equals": [
-                        {
-                            "Ref": "AuthCognitoUserPoolId"
-                        },
-                        "NONE"
-                    ]
-                }
+                1
             ]
         },
         "APIKeyExpirationEpochIsPositive": {
