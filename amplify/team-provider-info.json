@@ -1,0 +1,20 @@
+{
+    "devx": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-realtime-devx-41447-authRole",
+            "UnauthRoleArn": "arn:aws:iam::411642472063:role/amplify-realtime-devx-41447-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::411642472063:role/amplify-realtime-devx-41447-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-realtime-devx-41447-deployment",
+            "UnauthRoleName": "amplify-realtime-devx-41447-unauthRole",
+            "StackName": "amplify-realtime-devx-41447",
+            "StackId": "arn:aws:cloudformation:us-east-1:411642472063:stack/amplify-realtime-devx-41447/ba5023c0-c19a-11ea-aee0-12c9c271ca70",
+            "AmplifyAppId": "dhdvmuaousujy"
+        },
+        "categories": {
+            "auth": {
+                "realtime99d78ebe": {}
+            }
+        }
+    }
+}
